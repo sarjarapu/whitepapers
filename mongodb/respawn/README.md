@@ -1,4 +1,4 @@
----
+<!---
 title: Sleep better at night! Here is how to re-spawn a MongoDB Server automatically!
 subtitle: A technical guide to automatically spin a replacement MongoDB server in AWS when one of your replica set member gives up on you.
 author: "Shyam K. Arjarapu"
@@ -8,7 +8,7 @@ toc: true
 toc_depth: 4
 titlepage: true
 highlight_style: tango
----
+--->
 
 # Sleep better at night! Here is how to respawn a MongoDB Server automatically!
 
