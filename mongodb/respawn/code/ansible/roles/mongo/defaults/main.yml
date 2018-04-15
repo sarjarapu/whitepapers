@@ -1,0 +1,13 @@
+---
+# defaults file for mongo
+mongo_version: "3.2.12"
+replset_name: "rs"
+mongo_port: "27017"
+storage_engine: "wiredTiger"
+app_mount_path: "/data"
+data_folder: "{{app_mount_path}}/mongodb"
+log_path: "{{app_mount_path}}/log/mongodb"
+mongod_config_path: "/etc/mongod.conf"
+bind_ip: "0.0.0.0"
+shard_role: ""
+use_fqdn: True

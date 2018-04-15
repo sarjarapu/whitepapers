@@ -1,0 +1,60 @@
+---
+
+- name: add epel yum repository
+  become: true
+  yum_repository:
+    name: epel
+    description: epel yum repository
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+    metalink: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
+    enabled: yes
+    gpgcheck: no
+    state: present
+
+- name: install pip via easy_install
+  become: true
+  easy_install:
+    name: pip
+    state: latest
+
+- name: install additional packages required 
+  become: true
+  yum: 
+    name: "{{item}}"
+    state: present
+  with_items:
+    - epel-release
+    - ansible
+
+- name: install python packages via pip
+  shell: /usr/bin/pip install {{item}} --upgrade --user
+  with_items:
+    - awscli
+    - virtualenv
+    - boto
+    - boto3
+
+- name: create .aws folder at home
+  file:
+    state: directory
+    path: "/home/ec2-user/.aws"
+    mode: 0755
+
+- name: copy the aws private key
+  copy:
+    src: "{{ source_pem_key_file }}"
+    dest: "{{ target_pem_key_file }}"
+    owner: ec2-user
+    group: ec2-user
+    mode: 0400
+
+- name: copy the aws config and credentials
+  template:
+    src: "{{item}}"
+    dest: "/home/ec2-user/.aws/{{item}}"
+    owner: ec2-user
+    group: ec2-user
+    mode: 0400
+  with_items:
+    - config
+    - credentials

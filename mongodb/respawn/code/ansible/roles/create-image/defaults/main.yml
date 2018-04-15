@@ -1,0 +1,6 @@
+---
+app_mount_path: "/data"
+ami_name: "ami_your_app_name_rs"
+region: "us-west-2"
+key_name: "your_key"
+security_groups: ["your_security_group"]

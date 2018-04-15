@@ -1,0 +1,95 @@
+---
+# TODO: Force make the current check fail 
+- name: check if {{ data_folder }} folder already exists
+  stat: 
+    path: "{{ data_folder }}"
+  register: check_folder
+
+- block: 
+    - name: stop mongod service
+      become: true
+      service:
+        name: mongod
+        state: stopped
+        enabled: yes
+
+    - name: create {{ app_mount_path }} folder at root
+      become: true
+      file:
+        state: directory
+        path: "{{ app_mount_path }}"
+        mode: 0755
+
+    - name: found an aws instance by private_ip_address 
+      debug: msg="instance [{{ instance_id }}] "
+
+    - name: Retrieve all tags on an instance
+      ec2_tag:
+        region: '{{ region }}'
+        resource: '{{ instance_id }}'
+        state: list
+      register: ec2_tags
+          
+    - name: retrieve /dev/xvdb volume volume by availability and tags
+      ec2_vol_facts:
+        region: "{{ region }}"
+        filters:
+          # "volume_id": "vol-04f3275c39d092c0d"
+          "status": "available"
+          "tag:server_group_name": "{{ ec2_tags.tags.server_group_name }}"
+          "tag:device": "/dev/xvdb"
+      register: mongod_device_search2
+
+    - name: display the /dev/xvdb volume search result
+      debug: msg="{{mongod_device_search2.volumes.0}} "
+
+    - name: attache the volume_id {{mongod_device_search2.volumes.0.id}} to instance_id {{ instance_id }}
+      ec2_vol:
+        region: "{{ region }}"
+        instance: "{{ instance_id }}"
+        id: "{{mongod_device_search2.volumes.0.id}}"
+        device_name: /dev/xvdb
+        delete_on_termination: no
+
+    - name: mount the mongod device /dev/xvdb to {{ app_mount_path }}
+      become: true
+      mount:
+        src: /dev/xvdb
+        path: "{{ app_mount_path }}"
+        fstype: xfs
+        opts: noatime
+        state: mounted
+        
+    - name: add fstab entry /dev/xvdb
+      become: true
+      mount:
+        src: /dev/xvdb
+        path: "{{ app_mount_path }}"
+        fstype: xfs
+        opts: noatime
+        state: present
+
+
+    - name: update the tags on instance id = [{{ instance_id }}]
+      ec2_tag:
+        region: "{{ region }}" 
+        resource: "{{ instance_id }}"
+        tags:
+          "Name": "{{ mongod_device_search2.volumes.0.tags['instance_name'] }}"
+          "owner": "{{ mongod_device_search2.volumes.0.tags['owner'] }}"
+          "expire-on": "{{ mongod_device_search2.volumes.0.tags['expire-on'] }}"
+          "server_group_name": "{{ mongod_device_search2.volumes.0.tags['server_group_name'] }}"
+          "server_number": "{{ mongod_device_search2.volumes.0.tags['server_number'] }}"
+          "ZONE": "{{ mongod_device_search2.volumes.0.tags['ZONE'] }}"
+          "CNAME": "{{ mongod_device_search2.volumes.0.tags['CNAME'] }}"
+
+    - name: start mongod service
+      become: true
+      service:
+        name: mongod
+        state: started
+        enabled: yes
+        
+  when: check_folder.stat.exists == False
+
+
