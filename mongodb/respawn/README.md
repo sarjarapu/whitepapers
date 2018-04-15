@@ -68,8 +68,10 @@ I would like to thank [Alex Komyagin](https://medium.com/@alexkomyagi), [Gupta G
 
 The solution discussed in this article will not help you attain higher fault tolerance. It primarily helps reduce the duration of your replica set with fault tolerance value of 0. I want you to be aware that neither this article nor the solution discussed in here is officially backed/supported by [MongoDB Inc](https://docs.mongodb.com/manual/support/). So, feel free use it at your own risk!
 
+### Source code
+
 The source code is available at repo:
-[https://github.com/sarjarapu/whitepapers/mongodb/respawn/code](https://github.com/sarjarapu/whitepapers/mongodb/respawn/code).
+[https://github.com/sarjarapu/whitepapers/tree/master/mongodb/respawn/code](https://github.com/sarjarapu/whitepapers/tree/master/mongodb/respawn/code).
 
 ## Introduction
 

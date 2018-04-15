@@ -1,15 +1,3 @@
----
-title: Sleep better at night! Here is how to re-spawn a MongoDB Server automatically!
-subtitle: A technical guide to automatically spin a replacement MongoDB server in AWS when one of your replica set member gives up on you.
-author: "Shyam K. Arjarapu"
-date: April 09, 2018
-tags: [AWS, MongoDB, respawn]
-toc: true
-toc_depth: 4
-titlepage: true
-highlight_style: tango
----
-
 # Source: Re-spawn a MongoDB server automatically
 
 This is the source code for my article ["Sleep better at night! Here is how to re-spawn a MongoDB Server automatically!"](https://github.com/sarjarapu/whitepapers/mongodb/respawn/README.md). If you haven't read that article yet, I suggest you to read through it to understand the details. Here in this article, I would be just discuss about the code I used. While I tried my best to keep it simple/generic, I could have missed a thing or two. So, feel free to fork it to make it fit for your needs or drop me a note.
