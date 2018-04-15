@@ -1,6 +1,6 @@
 # Source: Re-spawn a MongoDB server automatically
 
-This is the source code for my article ["Sleep better at night! Here is how to re-spawn a MongoDB Server automatically!"](https://github.com/sarjarapu/whitepapers/mongodb/respawn/README.md). If you haven't read that article yet, I suggest you to read through it to understand the details. Here in this article, I would be just discuss about the code I used. While I tried my best to keep it simple/generic, I could have missed a thing or two. So, feel free to fork it to make it fit for your needs or drop me a note.
+This is the source code for my article ["Sleep better at night! Here is how to re-spawn a MongoDB Server automatically!"](https://github.com/sarjarapu/whitepapers/tree/master/mongodb/respawn). If you haven't read that article yet, I suggest you to read through it to understand the details. Here in this article, I would be just discuss about the code I used. While I tried my best to keep it simple/generic, I could have missed a thing or two. So, feel free to fork it to make it fit for your needs or drop me a note.
 
 Before you want to get your hands dirty with the source code, I request you to read through the [configuration](#configuration) section to help customize the settings to fit your environment.
 
